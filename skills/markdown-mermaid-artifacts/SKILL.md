@@ -27,18 +27,20 @@ Use for lightweight architecture documentation.
 
 ## Template
 
-```md
+~~~md
 # Title
 
 ## Context
 ## Decision / Flow
+
 ```mermaid
 flowchart TD
   A --> B
 ```
+
 ## Consequences
 ## Open Questions
-```
+~~~
 
 ## Output
 

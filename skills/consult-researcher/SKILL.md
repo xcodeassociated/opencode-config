@@ -16,7 +16,7 @@ Use `@researcher` for external/current facts instead of guessing. If names, vers
 - Legal/regulatory facts.
 - Tool behavior that may have changed.
 - Library/framework details not present in the repo.
-- Allegro-specific topic where docs/MCP evidence may exist.
+- Organization-specific topic where approved docs or internal evidence may exist.
 
 ## Do Not Use For
 

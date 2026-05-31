@@ -6,6 +6,15 @@ license: MIT
 
 # R2DBC Base Entity
 
+## Reference Files
+
+OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
+
+Relative to this skill directory:
+- `references/r2dbc-entity-example.md` — Kotlin Spring Data R2DBC entity shape.
+
+If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+
 Use before writing R2DBC entities.
 
 ## Rules
@@ -16,22 +25,6 @@ Use before writing R2DBC entities.
 - Include audit fields only when configured and needed.
 - Keep mapping explicit when column names differ.
 - Do not use lazy-loading assumptions.
-
-## Example Shape
-
-```kotlin
-@Table("items")
-data class ItemEntity(
-    @Id val id: UUID? = null,
-    @Version val version: Long? = null,
-    val name: String,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null,
-)
-```
-
-## Notes
-
 - Data classes are acceptable for R2DBC because there are no JPA proxy constraints.
 - Verify generated IDs and version behavior with integration tests.
 

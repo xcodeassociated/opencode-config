@@ -41,4 +41,4 @@ If another agent delegated an approved slice:
 
 ## Checkpoint
 
-For long-running, delegated, or context-risk work, load `work-state-checkpoint` and run `/checkpoint-create` before pausing or handing off.
+For long-running, delegated, or context-risk work, load `work-state-checkpoint` and apply `/checkpoint-create` save semantics directly before pausing or handing off; do not literally invoke another slash command.

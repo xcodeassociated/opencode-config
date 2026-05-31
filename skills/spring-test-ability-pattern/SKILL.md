@@ -15,7 +15,7 @@ Use while designing or refactoring Spring code.
 - Avoid static/global state.
 - Keep time, UUID, current user, and external calls behind injectable providers.
 - Use small focused services/use cases.
-- Make transactions explicit at service/application layer.
+- Make transactions explicit at service/application layer. For `@Transactional` propagation, proxy/self-invocation behavior, and JUnit 5 integration tests, load `spring-transaction-propagation`.
 - Tests should be readable and stable.
 
 ## Test Levels

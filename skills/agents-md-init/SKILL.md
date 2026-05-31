@@ -6,6 +6,12 @@ license: MIT
 
 # AGENTS.md Init
 
+## Reference Files and Embedded Template
+
+The full AGENTS.md suggested structure is embedded in this `SKILL.md` below to avoid workflow drift when sibling reference files are not loaded. `references/agents-md-template.md` is kept as a colocated copy for humans or agents that explicitly need a separate template file.
+
+If the read tool needs a concrete reference path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+
 Create or update project-root `AGENTS.md` for future coding-agent sessions. Use for repo init, stale project instructions, or replacing weak `/init` output.
 
 ## Hard Rules
@@ -65,7 +71,31 @@ When invoked by `@architect`, developer/tester/devops work is discovery and AGEN
 
 `README*`, `docs/**`, existing `AGENTS.md`, `CLAUDE.md`, `.cursor/**`, CI files, build files, `Makefile`, `package.json`, `bun.lock*`, Vite/TS configs, `src/**`, `test/**`, `requests/**`, OpenAPI files, migrations/schema/seed files, Dockerfiles, Compose, Helm/K8s manifests, scripts, and env examples.
 
-## Suggested Structure
+## Writing Rules
+
+- Prefer exact paths, commands, modules, services, package names, ports, env files, and test targets.
+- Classify important business statements as `Evidence-backed`, `Inferred`, or `# VERIFY with human`.
+- Keep text comprehensive but operational; remove long explanations that do not guide future agents.
+- Do not edit until business purpose, scope, and blocking human-owned decisions are clear, unless the user requested a draft.
+
+## Final Report
+
+```md
+Summary:
+Sections created/updated:
+Agents consulted:
+Commands/files inspected:
+Human clarifications asked/answered:
+Remaining # VERIFY items:
+AGENTS.md maintenance rules added/verified:
+Risks/gaps:
+```
+
+## Embedded AGENTS.md Suggested Structure
+
+# AGENTS.md Suggested Structure
+
+Use this as a starting point after loading `agents-md-init`. Do not fill sections with invented facts; mark unresolved non-blocking details as `# VERIFY`.
 
 ```md
 # <Project Name> Agent Guide
@@ -106,24 +136,4 @@ When invoked by `@architect`, developer/tester/devops work is discovery and AGEN
 
 ## Known Gotchas
 ## Human-Owned Decisions / Open Questions
-```
-
-## Writing Rules
-
-- Prefer exact paths, commands, modules, services, package names, ports, env files, and test targets.
-- Classify important business statements as `Evidence-backed`, `Inferred`, or `# VERIFY with human`.
-- Keep text comprehensive but operational; remove long explanations that do not guide future agents.
-- Do not edit until business purpose, scope, and blocking human-owned decisions are clear, unless the user requested a draft.
-
-## Final Report
-
-```md
-Summary:
-Sections created/updated:
-Agents consulted:
-Commands/files inspected:
-Human clarifications asked/answered:
-Remaining # VERIFY items:
-AGENTS.md maintenance rules added/verified:
-Risks/gaps:
 ```

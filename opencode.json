@@ -9,7 +9,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "vllm",
       "options": {
-        "baseURL": "https://vllm.api.h3x0.dev/v1"
+        "baseURL": "{env:OPENCODE_VLLM_BASE_URL}"
       },
       "models": {
         "openai/gpt-oss-120b": {
@@ -88,16 +88,22 @@
     }
   },
   "permission": {
+    "*": "ask",
+    "read": "allow",
+    "edit": "ask",
+    "bash": "ask",
+    "skill": {
+      "*": "deny"
+    },
+    "task": {
+      "*": "deny"
+    },
     "webfetch": "deny",
     "websearch": "deny",
     "firecrawl*": "deny",
     "searxng*": "deny",
     "duckduckgo*": "deny",
-    "question": "allow",
-    "task": {
-      "*": "deny"
-    },
-    "read": "allow"
+    "question": "allow"
   },
   "lsp": {
     "typescript": {
@@ -203,7 +209,10 @@
           "agents-md-init": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "spring-data-jpa-read-write-models": "allow",
+          "jpa-materialized-view-read-models": "allow",
+          "read-model-outbox-propagation": "allow"
         },
         "task": {
           "*": "deny",
@@ -299,10 +308,24 @@
           "handoff-brief": "allow",
           "schema-analysis": "allow",
           "spring-persistence-selection": "allow",
+          "jpa-repository-patterns": "allow",
+          "spring-transaction-propagation": "allow",
+          "jpa-n-plus-one-fetching": "allow",
+          "spring-data-saveall-batch-writes": "allow",
+          "r2dbc-batch-operations": "allow",
           "agents-md-init": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "jpa-many-to-many": "allow",
+          "jpa-set-collections": "allow",
+          "jpa-cascade-orphan-removal": "allow",
+          "jpa-foreign-key-indexes": "allow",
+          "jpa-hibernate-views": "allow",
+          "jpa-materialized-view-read-models": "allow",
+          "liquibase-migrations": "allow",
+          "spring-data-jpa-read-write-models": "allow",
+          "read-model-outbox-propagation": "allow"
         },
         "task": {
           "*": "deny",
@@ -450,18 +473,26 @@
           "jpa-many-to-many": "allow",
           "jpa-optimistic-locking": "allow",
           "jpa-repository-patterns": "allow",
+          "jpa-n-plus-one-fetching": "allow",
+          "spring-data-saveall-batch-writes": "allow",
           "jpa-set-collections": "allow",
           "r2dbc-base-entity": "allow",
           "r2dbc-batch-operations": "allow",
           "r2dbc-optimistic-locking": "allow",
           "spring-flexible-search": "allow",
           "spring-persistence-selection": "allow",
+          "spring-transaction-propagation": "allow",
           "spring-test-ability-pattern": "allow",
           "schema-analysis": "allow",
           "agents-md-init": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "jpa-foreign-key-indexes": "allow",
+          "jpa-hibernate-views": "allow",
+          "jpa-materialized-view-read-models": "allow",
+          "spring-data-jpa-read-write-models": "allow",
+          "read-model-outbox-propagation": "allow"
         },
         "task": {
           "*": "deny",
@@ -587,14 +618,28 @@
           "tester-bug-reproduction": "allow",
           "playwright-ui-testing": "allow",
           "test-strategy-pyramid": "allow",
+          "spring-test-ability-pattern": "allow",
           "api-contract-testing": "allow",
+          "jpa-n-plus-one-fetching": "allow",
+          "spring-data-saveall-batch-writes": "allow",
+          "spring-transaction-propagation": "allow",
+          "r2dbc-batch-operations": "allow",
           "consult-researcher": "allow",
           "context-reset": "allow",
           "git-workspace-check": "allow",
           "handoff-brief": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "jpa-many-to-many": "allow",
+          "jpa-set-collections": "allow",
+          "jpa-cascade-orphan-removal": "allow",
+          "jpa-foreign-key-indexes": "allow",
+          "jpa-hibernate-views": "allow",
+          "jpa-materialized-view-read-models": "allow",
+          "liquibase-migrations": "allow",
+          "spring-data-jpa-read-write-models": "allow",
+          "read-model-outbox-propagation": "allow"
         },
         "task": {
           "*": "deny",
@@ -701,11 +746,15 @@
           "mongo-read-only": "allow",
           "data-profiling": "allow",
           "schema-analysis": "allow",
+          "jpa-foreign-key-indexes": "allow",
           "requirements-data-lens": "allow",
           "handoff-brief": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "spring-data-jpa-read-write-models": "allow",
+          "jpa-materialized-view-read-models": "allow",
+          "read-model-outbox-propagation": "allow"
         },
         "task": {
           "*": "deny",
@@ -849,13 +898,16 @@
           "backup-restore-strategy": "allow",
           "observability": "allow",
           "ci-cd-pipeline": "allow",
+          "liquibase-migrations": "allow",
           "context-reset": "allow",
           "git-workspace-check": "allow",
           "handoff-brief": "allow",
           "prefer-keycloak": "allow",
           "agents-md-section": "allow",
           "agents-md-maintenance": "allow",
-          "work-state-checkpoint": "allow"
+          "work-state-checkpoint": "allow",
+          "read-model-outbox-propagation": "allow",
+          "jpa-materialized-view-read-models": "allow"
         },
         "task": {
           "*": "deny",
@@ -956,6 +1008,12 @@
         "question": "allow",
         "repo_clone": "deny"
       }
+    },
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
     }
   },
   "mcp": {
@@ -986,7 +1044,7 @@
         "mcp-searxng"
       ],
       "environment": {
-        "SEARXNG_URL": "https://search.h3x0.io"
+        "SEARXNG_URL": "{env:OPENCODE_SEARXNG_URL}"
       }
     },
     "searxng-ai": {
@@ -998,7 +1056,7 @@
         "mcp-searxng"
       ],
       "environment": {
-        "SEARXNG_URL": "https://search.h3x0.dev"
+        "SEARXNG_URL": "{env:OPENCODE_SEARXNG_AI_URL}"
       }
     },
     "duckduckgo": {
@@ -1021,8 +1079,9 @@
         "firecrawl-mcp"
       ],
       "environment": {
-        "FIRECRAWL_API_URL": "https://firecrawl.api.h3x0.io",
-        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "3"
+        "FIRECRAWL_API_URL": "{env:OPENCODE_FIRECRAWL_API_URL}",
+        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "{env:OPENCODE_FIRECRAWL_RETRY_MAX_ATTEMPTS}",
+        "FIRECRAWL_API_KEY": "{env:OPENCODE_FIRECRAWL_API_KEY}"
       }
     },
     "firecrawl-ai": {
@@ -1034,8 +1093,9 @@
         "firecrawl-mcp"
       ],
       "environment": {
-        "FIRECRAWL_API_URL": "https://firecrawl.api.h3x0.dev",
-        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "3"
+        "FIRECRAWL_API_URL": "{env:OPENCODE_FIRECRAWL_AI_API_URL}",
+        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "{env:OPENCODE_FIRECRAWL_RETRY_MAX_ATTEMPTS}",
+        "FIRECRAWL_API_KEY": "{env:OPENCODE_FIRECRAWL_AI_API_KEY}"
       }
     },
     "shadcn": {
@@ -1049,11 +1109,11 @@
       "enabled": true
     }
   },
-  "default_agent": "team-lead",
   "experimental": {
     "primary_tools": [
       "question"
     ],
     "batch_tool": false
-  }
+  },
+  "default_agent": "team-lead"
 }

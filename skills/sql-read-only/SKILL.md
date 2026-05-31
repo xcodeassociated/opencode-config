@@ -6,32 +6,28 @@ license: MIT
 
 # SQL Read-Only
 
+## Reference Files
+
+OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
+
+Relative to this skill directory:
+- `references/safe-sql-patterns.md` — safe SQL connection and query examples.
+
+If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+
 Use before SQL analysis.
 
 ## Hard Rules
 
-- No writes: INSERT, UPDATE, DELETE, DROP, ALTER, TRUNCATE, CREATE.
+- No writes: `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, `TRUNCATE`, `CREATE`.
 - Use read-only credentials when available.
-- Prefer read-only transaction.
+- Prefer a read-only transaction.
 - Set statement timeout.
-- Always LIMIT exploratory queries.
+- Always limit exploratory queries.
 - Do not dump sensitive data.
-- `EXPLAIN ANALYZE` only on non-production or with approval.
+- Use `EXPLAIN ANALYZE` only on non-production or with approval.
 
-## Safe Start
-
-```sql
-BEGIN READ ONLY;
-SET LOCAL statement_timeout = '5s';
-SELECT current_database(), current_user;
-```
-
-## Useful Sources
-
-- `information_schema`
-- `pg_catalog`
-- `pg_stat_user_tables`
-- `pg_stat_user_indexes`
+Useful sources include `information_schema`, `pg_catalog`, `pg_stat_user_tables`, and `pg_stat_user_indexes`.
 
 ## Output
 

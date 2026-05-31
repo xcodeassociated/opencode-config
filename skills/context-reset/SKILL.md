@@ -13,7 +13,7 @@ Use to re-align before continuing complex work.
 
 ## Durable Reset
 
-If the reset must survive a new session, lost context, repeated errors, or stopping work, load `work-state-checkpoint` and run `/checkpoint-create` to create/overwrite `AGENT_WORK_STATE.md`. A normal context reset is in-memory only.
+If the reset must survive a new session, lost context, repeated errors, or stopping work, load `work-state-checkpoint` and apply `/checkpoint-create` save semantics directly to create/overwrite `AGENT_WORK_STATE.md`; do not literally invoke another slash command. A normal context reset is in-memory only.
 
 ## Reset Format
 

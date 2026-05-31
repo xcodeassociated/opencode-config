@@ -15,6 +15,7 @@ REST is default. Use gRPC only with a concrete reason.
 - Simple CRUD/resources.
 - Human-debuggable HTTP matters.
 - Existing system is REST.
+- A read-model update can be eventually consistent and a materialized-view refresh or outbox/event propagation would be simpler than synchronous service coupling.
 
 ## Choose gRPC When
 
@@ -23,6 +24,7 @@ REST is default. Use gRPC only with a concrete reason.
 - Streaming is required.
 - Low latency/high throughput is measured need.
 - Both sides can support protobuf lifecycle.
+- A read-model service requires synchronous internal confirmation and the business accepts command availability coupling.
 
 ## Required Considerations
 

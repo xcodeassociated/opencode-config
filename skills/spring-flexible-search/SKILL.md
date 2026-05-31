@@ -6,6 +6,16 @@ license: MIT
 
 # Spring Flexible Search
 
+## Reference Files
+
+OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
+
+Relative to this skill directory:
+- `references/jpa.md` — JPA search/filter examples.
+- `references/r2dbc.md` — R2DBC search/filter examples.
+
+If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+
 Use for list endpoints with optional filters, pagination, and sorting.
 
 ## Rules
@@ -27,13 +37,6 @@ Use for list endpoints with optional filters, pagination, and sorting.
 
 - Use `R2dbcEntityTemplate` criteria or custom SQL.
 - Keep count query explicit for pagination.
-
-## References
-
-For implementation examples, read only the matching file when needed:
-
-- `references/jpa.md`
-- `references/r2dbc.md`
 
 ## Output
 

@@ -6,53 +6,24 @@ license: MIT
 
 # Bun Default
 
-## Rule
+## Reference Files
 
-Use Bun for all JavaScript/TypeScript package, script, and CLI work.
+OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
 
-- Install: `bun install`
-- Run scripts: `bun run <script>`
-- Execute packages: `bunx <package>`
-- Add deps: `bun add <pkg>` / `bun add -d <pkg>`
-- Tests: `bun test` or project script via `bun run test`
+Relative to this skill directory:
+- `references/bun-commands.md` — Bun command/package-script examples.
 
-Do not use `npm`, `npx`, `pnpm`, or `yarn` for project work.
+If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
-## Common Commands
+Use Bun for JavaScript/TypeScript package, script, and CLI work.
 
-```bash
-bun install
-bun run dev
-bun run build
-bun run test
-bun run lint
-bunx playwright test
-bunx shadcn@latest init
-bunx shadcn@latest add button
-bunx shadcn@latest docs button
-```
+## Rules
 
-## package.json
+- Install with `bun install`.
+- Run scripts with `bun run <script>`.
+- Execute packages with `bunx <package>`.
+- Add dependencies with `bun add <pkg>` / `bun add -d <pkg>`.
+- Run tests with `bun test` or the project script via `bun run test`.
+- Do not use `npm`, `npx`, `pnpm`, or `yarn` for project work unless no Bun-compatible path exists; then stop and report the blocker.
+- Translate docs mentally: `npm install x` -> `bun add x`, `npm install -D x` -> `bun add -d x`, `npx x` / `pnpm dlx x` -> `bunx x`.
 
-Prefer Bun-compatible scripts:
-
-```json
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "lint": "eslint ."
-  }
-}
-```
-
-## Translate Non-Bun Docs
-
-- `npm install x` -> `bun add x`
-- `npm install -D x` -> `bun add -d x`
-- `npx x` -> `bunx x`
-- `pnpm dlx x` -> `bunx x`
-
-If no Bun-compatible path exists, stop and report the blocker instead of using another package manager.

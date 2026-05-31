@@ -6,6 +6,12 @@ license: MIT
 
 # Work State Checkpoint
 
+## Reference Files and Embedded Template
+
+The full checkpoint template is embedded in this `SKILL.md` below to avoid workflow drift when sibling reference files are not loaded. `references/checkpoint-template.md` is kept as a colocated copy for humans or agents that explicitly need a separate template file.
+
+If the read tool needs a concrete reference path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+
 Create a durable repo-local recovery brief so a fresh agent can continue without relying on the old session.
 
 ## Safe Paths
@@ -67,9 +73,32 @@ If the human tells you to stop live checkpointing, stop automatic updates. Optio
 8. If `Auto-update mode: active`, continue updating the same target after meaningful progress unless disabled.
 9. If another specialist owns the next step, switch/delegate when allowed or report the recommended owner.
 
-## Checkpoint Format
+## Completion Responses
 
-Use this exact structure for create, auto, live updates, and resume-continued updates:
+After `/checkpoint-create`:
+
+```md
+Checkpoint saved: <path>
+Resume with: /checkpoint-resume <path>
+Notes: <one-line caveat if any>
+```
+
+After `/checkpoint-auto`:
+
+```md
+Live checkpoint active: <path>
+Resume with: /checkpoint-resume <path>
+Stop with: tell me to stop live checkpointing
+Notes: <one-line caveat if any>
+```
+
+After `/checkpoint-resume`, return a compact continuation plan and the first safe next action.
+
+## Embedded Checkpoint Format
+
+# Work State Checkpoint Template
+
+Use this exact structure for `/checkpoint-create`, `/checkpoint-auto`, live updates, and resume-continued updates after loading `work-state-checkpoint`.
 
 ```md
 # Agent Work State
@@ -155,24 +184,3 @@ Use this exact structure for create, auto, live updates, and resume-continued up
 ## Suggested Resume Prompt
 Read `AGENT_WORK_STATE.md`, verify repo state, summarize the current step, and continue from the next action without redoing completed work.
 ```
-
-## Completion Responses
-
-After `/checkpoint-create`:
-
-```md
-Checkpoint saved: <path>
-Resume with: /checkpoint-resume <path>
-Notes: <one-line caveat if any>
-```
-
-After `/checkpoint-auto`:
-
-```md
-Live checkpoint active: <path>
-Resume with: /checkpoint-resume <path>
-Stop with: tell me to stop live checkpointing
-Notes: <one-line caveat if any>
-```
-
-After `/checkpoint-resume`, return a compact continuation plan and the first safe next action.

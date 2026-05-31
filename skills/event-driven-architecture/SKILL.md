@@ -26,7 +26,7 @@ Use only for real async, integration, or decoupling needs.
 
 - Event name and schema.
 - Producer transaction boundary.
-- Outbox/inbox strategy.
+- Outbox/inbox strategy. For materialized-view read models, prefer `jpa-materialized-view-read-models` and a refresh schedule before events. For read-model propagation from a JPA write model to another store/service, load `read-model-outbox-propagation` and define consistency, idempotency, retry, and DLT behavior.
 - Partition key.
 - Idempotency key/storage.
 - Retry and dead-letter policy.

@@ -15,6 +15,7 @@ Use before changing entity relationships or deletes.
 - Use `orphanRemoval = true` only when removing from collection should delete the child row.
 - Keep both sides of bidirectional relationships synchronized.
 - Confirm DB foreign keys match JPA behavior.
+- Load `jpa-foreign-key-indexes` when adding or changing relationship FKs; parent deletes and cascade checks can be slow without referencing-column indexes.
 - Add integration tests for delete/orphan behavior.
 
 ## Defaults
