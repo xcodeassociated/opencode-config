@@ -212,7 +212,8 @@
           "work-state-checkpoint": "allow",
           "spring-data-jpa-read-write-models": "allow",
           "jpa-materialized-view-read-models": "allow",
-          "read-model-outbox-propagation": "allow"
+          "read-model-outbox-propagation": "allow",
+          "websocket-auth-session-lifecycle": "allow"
         },
         "task": {
           "*": "deny",
@@ -325,7 +326,9 @@
           "jpa-materialized-view-read-models": "allow",
           "liquibase-migrations": "allow",
           "spring-data-jpa-read-write-models": "allow",
-          "read-model-outbox-propagation": "allow"
+          "read-model-outbox-propagation": "allow",
+          "spring-webflux-coroutine-websockets": "allow",
+          "websocket-auth-session-lifecycle": "allow"
         },
         "task": {
           "*": "deny",
@@ -492,7 +495,9 @@
           "jpa-hibernate-views": "allow",
           "jpa-materialized-view-read-models": "allow",
           "spring-data-jpa-read-write-models": "allow",
-          "read-model-outbox-propagation": "allow"
+          "read-model-outbox-propagation": "allow",
+          "spring-webflux-coroutine-websockets": "allow",
+          "websocket-auth-session-lifecycle": "allow"
         },
         "task": {
           "*": "deny",
@@ -639,7 +644,9 @@
           "jpa-materialized-view-read-models": "allow",
           "liquibase-migrations": "allow",
           "spring-data-jpa-read-write-models": "allow",
-          "read-model-outbox-propagation": "allow"
+          "read-model-outbox-propagation": "allow",
+          "spring-webflux-coroutine-websockets": "allow",
+          "websocket-auth-session-lifecycle": "allow"
         },
         "task": {
           "*": "deny",
@@ -907,7 +914,8 @@
           "agents-md-maintenance": "allow",
           "work-state-checkpoint": "allow",
           "read-model-outbox-propagation": "allow",
-          "jpa-materialized-view-read-models": "allow"
+          "jpa-materialized-view-read-models": "allow",
+          "websocket-auth-session-lifecycle": "allow"
         },
         "task": {
           "*": "deny",
