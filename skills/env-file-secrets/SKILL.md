@@ -1,6 +1,6 @@
 ---
 name: env-file-secrets
-description: "Manage .env files, .env.template, .gitignore, .dockerignore, Dockerfile, and Docker Compose secrets. Use before adding env vars, local config, env_file, or secret-bearing runtime config."
+description: "Manage .env, .env.template, .gitignore, .dockerignore, Dockerfile, and Docker Compose secrets safely. Use before adding env vars, local config, env_file, or secret-bearing runtime config."
 license: MIT
 ---
 
@@ -8,12 +8,8 @@ license: MIT
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/env-patterns.md` — .gitignore, env template, Docker/Compose, and final-report examples.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 Use when adding/changing/reviewing env vars, local config, Dockerfile/Compose config, test env files, or any value that might be secret.
 

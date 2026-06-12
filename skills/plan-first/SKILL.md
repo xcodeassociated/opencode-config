@@ -33,8 +33,7 @@ Waiting for approval:
 If another agent delegated an approved slice:
 
 - Treat the delegation brief as approved scope.
-- Do not ask the human directly unless explicitly routed or no invoker exists.
-- Return questions to the immediate invoker by default.
+- Return questions to the immediate invoker by default; always ask the human directly with `question` when a blocking question cannot be resolved through the invoker, when the brief routes questions straight to the human, or when no invoker exists. From a session nested below a delegated invoker, `question` does not surface in the TUI — return the question in `Clarification Requests` for relay instead.
 - The invoker answers only from the brief, repo evidence, tool output, cited research, approved scope, or human answers; otherwise it routes unresolved questions upstream.
 - Pause affected work until `Clarification Answers` arrive.
 - Stay inside scope; report out-of-scope findings separately.

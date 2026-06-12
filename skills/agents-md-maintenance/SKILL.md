@@ -1,6 +1,6 @@
 ---
 name: agents-md-maintenance
-description: "Maintain project AGENTS.md instructions. Use at task start and finish to check existence, recommend /project-init when missing, verify guidance, and update stale project context."
+description: "Maintain AGENTS.md instructions. Use at task start and finish to check existence, recommend /project-init when missing, verify guidance, and update stale project context."
 license: MIT
 ---
 

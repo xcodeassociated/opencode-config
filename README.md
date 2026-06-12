@@ -10,7 +10,7 @@ Structured OpenCode setup for a specialist coding team:
 - `@analyst` — read-only requirements, schema, data, and migration-risk analysis.
 - `@researcher` — only agent allowed to perform external research, web/docs lookup, package/version/CVE discovery.
 
-The setup is intentionally conservative. Most external lookup is denied except for `@researcher`; destructive operations require approval or are denied; delegated agents route clarification questions through the invoking agent unless direct human questioning is explicitly allowed.
+The setup is intentionally conservative. Most external lookup is denied except for `@researcher`; destructive operations require approval or are denied; delegated agents route clarification questions through the invoking agent first; the invoker answers what it can from evidence, and unresolved blocking questions reach the human — every agent keeps the `question` tool in every invocation mode.
 
 ## Repository layout
 
@@ -62,7 +62,7 @@ Use only the values your setup needs. For self-hosted Firecrawl, `OPENCODE_FIREC
 
 ```bash
 mkdir -p ~/.config/opencode
-cp -R opencode.json agents commands skills ~/.config/opencode/
+cp -R opencode.json agents commands skills plugins ~/.config/opencode/
 cp .env.example ~/.config/opencode/.env.example
 cp .env.example ~/.config/opencode/.env
 ```
@@ -123,7 +123,7 @@ Use this when you want a repository-local OpenCode config directory:
 
 ```bash
 mkdir -p .opencode
-cp -R opencode.json agents commands skills .opencode/
+cp -R opencode.json agents commands skills plugins .opencode/
 cp .env.example .env
 ```
 
@@ -175,6 +175,7 @@ Key rules preserved by the prompts:
 - no hallucinated facts; ask or mark only non-blocking residual uncertainty as `# VERIFY`;
 - no claiming tests, commands, builds, deploys, or verification passed unless actually run and observed;
 - no external research except through `@researcher`;
+- every agent, including delegated subagents and `@researcher`, has the `question` tool; a delegated agent routes questions to its invoker first, the invoker answers what it can from evidence and re-delegates with `Clarification Answers`, and unresolved blocking questions go to the human — directly via `question` whenever the chain cannot resolve them (or the brief routes questions straight to the human); the TUI surfaces `question` only from the primary session and its direct delegates (opencode #7654), so nested agents return blocking questions in `Clarification Requests` for relay — enforced by `plugins/nested-question-guard.js`, which rejects deeper `question` calls with that instruction and stamps any task return carrying Blocking clarification requests with a relay order the invoker sees in the tool output (both hooks fail-open; delete the plugin once #7654 is fixed upstream);
 - no production deploy, push, destructive DB/infra operation, or credential change without explicit approval;
 - real `.env` files are readable by agents by design for local config/debug/deploy workflows, but agents must not commit or print real secret values;
 - long or fragile work should use `/checkpoint-auto`, `/checkpoint-create`, and `/checkpoint-resume`;

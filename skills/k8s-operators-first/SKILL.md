@@ -1,6 +1,6 @@
 ---
 name: k8s-operators-first
-description: "Prefer Kubernetes operators for complex/stateful workloads. Use for Keycloak, Kafka/Strimzi, databases, Longhorn, and production k8s services."
+description: "Prefer Kubernetes operators for complex or stateful workloads. Use for Keycloak, Kafka/Strimzi, databases, Longhorn, and production K8s services."
 license: MIT
 ---
 

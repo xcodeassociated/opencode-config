@@ -10,7 +10,7 @@ license: MIT
 
 The full checkpoint template is embedded in this `SKILL.md` below to avoid workflow drift when sibling reference files are not loaded. `references/checkpoint-template.md` is kept as a colocated copy for humans or agents that explicitly need a separate template file.
 
-If the read tool needs a concrete reference path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+If a concrete reference path is needed: `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 
 Create a durable repo-local recovery brief so a fresh agent can continue without relying on the old session.
 

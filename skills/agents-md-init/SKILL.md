@@ -1,6 +1,6 @@
 ---
 name: agents-md-init
-description: "Create or update project-root AGENTS.md with business, architecture, development, testing, data, ops, and delegation guidance. Use for repo init or stale project instructions."
+description: "Create or update root AGENTS.md covering business, architecture, development, testing, data, ops, and delegation guidance. Use for repo init or stale project instructions."
 license: MIT
 ---
 
@@ -10,7 +10,7 @@ license: MIT
 
 The full AGENTS.md suggested structure is embedded in this `SKILL.md` below to avoid workflow drift when sibling reference files are not loaded. `references/agents-md-template.md` is kept as a colocated copy for humans or agents that explicitly need a separate template file.
 
-If the read tool needs a concrete reference path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
+If a concrete reference path is needed: `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 
 Create or update project-root `AGENTS.md` for future coding-agent sessions. Use for repo init, stale project instructions, or replacing weak `/init` output.
 
@@ -31,7 +31,7 @@ The invoking `@team-lead`, `@developer`, or `@architect` coordinates discovery.
 - Specialists return findings plus `Blocking` / `Non-blocking` clarification requests to the coordinator by default.
 - The coordinator answers only from evidence. If unresolved and human-facing, ask the human once with `question`; if delegated, route upstream.
 - Resume affected discovery/editing only after `Clarification Answers` arrive.
-- Direct specialist `question` use is allowed only when explicitly routed or no invoker exists.
+- Specialists may always use `question` directly when a blocking question cannot be resolved through the coordinator, when the brief routes questions straight to the human, or when no invoker exists. From a session nested below a delegated coordinator, return the question in `Clarification Requests` instead — nested `question` calls do not surface in the TUI.
 
 ## Required AGENTS.md Content
 

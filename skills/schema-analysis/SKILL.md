@@ -1,6 +1,6 @@
 ---
 name: schema-analysis
-description: "Analyze database schema and migration impact. Use for existing DBs, schema changes, indexes, constraints, and persistence design validation."
+description: "Analyze database schema and migration impact. Use for existing DBs, schema changes, indexes, constraints, and persistence-design validation."
 license: MIT
 ---
 

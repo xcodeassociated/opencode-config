@@ -1,3 +1,8 @@
+node_modules
+
+package.json
+bun.lock
+
 # Local runtime/session state
 AGENT_WORK_STATE.md
 .agent-state/
@@ -21,3 +26,4 @@ tool-output/
 .DS_Store
 .idea/
 .vscode/
+

@@ -1,6 +1,6 @@
 ---
 name: developer-bug-fix
-description: "Fix bugs with reproduction-first workflow. Use for reported defects, regressions, flaky behavior, or failing tests."
+description: "Fix bugs with a reproduction-first workflow. Use for reported defects, regressions, flaky behavior, or failing tests."
 license: MIT
 ---
 

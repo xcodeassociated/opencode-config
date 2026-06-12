@@ -1,6 +1,6 @@
 ---
 name: nvm-node
-description: "Use Node/NVM only when project tooling requires Node compatibility. Bun remains default for JS package management and scripts."
+description: "Use Node/NVM only when project tooling requires Node compatibility; Bun stays default for JS package management and scripts."
 license: MIT
 ---
 

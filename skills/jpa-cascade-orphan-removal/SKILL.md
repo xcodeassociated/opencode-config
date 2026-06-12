@@ -1,6 +1,6 @@
 ---
 name: jpa-cascade-orphan-removal
-description: "Choose JPA cascade and orphanRemoval safely. Use for one-to-many/one-to-one relationships, deletes, and aggregate ownership."
+description: "Choose JPA cascade and orphanRemoval safely. Use for one-to-many and one-to-one relationships, deletes, and aggregate ownership."
 license: MIT
 ---
 

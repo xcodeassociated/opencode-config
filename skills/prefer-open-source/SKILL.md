@@ -1,6 +1,6 @@
 ---
 name: prefer-open-source
-description: "Prefer open-source and on-prem-capable tools. Use when choosing services, dependencies, CI/CD, observability, and infrastructure."
+description: "Prefer open-source, on-prem-capable tools. Use when choosing services, dependencies, CI/CD, observability, and infrastructure."
 license: MIT
 ---
 

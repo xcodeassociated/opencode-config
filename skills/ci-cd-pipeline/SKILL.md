@@ -1,6 +1,6 @@
 ---
 name: ci-cd-pipeline
-description: "Design provider-neutral CI/CD for on-prem code, containers, tests, deploy readiness, and rollback. Use for production pipeline work."
+description: "Design provider-neutral CI/CD for on-prem: code, containers, tests, deploy readiness, and rollback. Use for production pipeline work."
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: spring-webflux-coroutine-websockets
-description: "Build raw WebSocket endpoints in Spring WebFlux bridged to Kotlin coroutines (no STOMP). Use when adding or reviewing a reactive WebSocketHandler, per-session send/receive/heartbeat coroutines, Channel/Flow message fan-out, backpressure, or connection lifecycle and cleanup. Architecture-agnostic transport only: no chat/room/presence domain. Also flags when plain Spring MVC + virtual threads would be the simpler choice."
+description: "Build raw WebSocket endpoints in Spring WebFlux bridged to Kotlin coroutines (no STOMP). Use when adding or reviewing a reactive WebSocketHandler, per-session send/receive/heartbeat coroutines, Channel/Flow message fan-out, backpressure, or connection lifecycle and cleanup. Transport only and architecture-agnostic (no chat/room/presence domain); also flags when Spring MVC plus virtual threads is the simpler choice."
 license: MIT
 ---
 
@@ -12,12 +12,8 @@ For the **security/expiry/logout side** of long-running sockets, load `websocket
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/handler-and-service.md` — handler/adapter/mapping beans, the coroutine bridge, structured-concurrency session handler, the channel-backed session registry, and heartbeat mechanics.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 ## Use When
 

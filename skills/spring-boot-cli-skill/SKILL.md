@@ -1,6 +1,6 @@
 ---
 name: spring-boot-cli-skill
-description: "Create or update Spring Boot projects with current Boot requirements. Use for scaffolding, starters, Gradle/Maven setup, and Boot upgrades."
+description: "Create or update Spring Boot projects against current Boot requirements. Use for scaffolding, starters, Gradle/Maven setup, and Boot upgrades."
 license: MIT
 ---
 

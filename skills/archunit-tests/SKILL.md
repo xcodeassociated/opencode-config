@@ -1,6 +1,6 @@
 ---
 name: archunit-tests
-description: "Add architecture tests for Spring/Kotlin package boundaries, layers, naming, and dependency direction. Use for greenfield or architecture refactors."
+description: "Add ArchUnit tests for Spring/Kotlin package boundaries, layers, naming, and dependency direction. Use for greenfield or architecture refactors."
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: websocket-auth-session-lifecycle
-description: "Secure long-running WebSocket sessions authenticated by OAuth2/OIDC (Keycloak) JWT in Spring WebFlux, no STOMP. Use for handshake authentication, token-expiry-during-session policy, forced reconnect vs in-band re-auth, logout/revocation propagation via Keycloak back-channel logout or optional Kafka events, the scheduled stale-session sweeper, heartbeat liveness policy, multi-instance session registries, and Origin/CSWSH checks. Architecture-agnostic: no chat domain."
+description: "Secure long-running WebSocket sessions authenticated by OAuth2/OIDC (Keycloak) JWT in Spring WebFlux, no STOMP. Use for handshake authentication, token-expiry-during-session policy, forced reconnect vs in-band re-auth, logout/revocation propagation via Keycloak back-channel logout or optional Kafka events, the scheduled stale-session sweeper, heartbeat liveness, multi-instance session registries, and Origin/CSWSH checks. Architecture-agnostic (no chat domain)."
 license: MIT
 ---
 
@@ -12,12 +12,8 @@ For the **transport/concurrency mechanics** (handler wiring, send/receive/heartb
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/auth-and-revocation.md` — handshake principal/expiry capture, the user→sessions index, the `@Scheduled` sweeper, close-with-control-message, in-band re-auth sketch, the Keycloak back-channel logout endpoint, and the optional Kafka logout consumer.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 ## The Core Problem
 

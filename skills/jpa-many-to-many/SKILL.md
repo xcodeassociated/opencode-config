@@ -1,6 +1,6 @@
 ---
 name: jpa-many-to-many
-description: "Model JPA/Hibernate many-to-many relationships safely. Use to enforce one association table, owning/inverse sides, mappedBy, JoinTable, Set collections, and direct @ManyToMany versus explicit join entity choice."
+description: "Model JPA/Hibernate many-to-many relationships safely. Use to enforce one association table, owning/inverse sides, mappedBy, JoinTable, Set collections, and the @ManyToMany versus explicit join-entity choice."
 license: MIT
 ---
 
@@ -8,12 +8,8 @@ license: MIT
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/mapping-examples.md` — direct mapping, duplicate-table anti-pattern, and join-entity examples.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 Use before adding or changing JPA/Hibernate many-to-many mappings.
 

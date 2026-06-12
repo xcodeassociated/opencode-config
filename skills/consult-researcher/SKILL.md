@@ -6,7 +6,7 @@ license: MIT
 
 # Consult Researcher
 
-Use `@researcher` for external/current facts instead of guessing. If names, versions, docs scope, or source requirements are unclear, researcher returns `Clarification Requests` to the invoker; the invoker answers from evidence or asks the human with `question`.
+Use `@researcher` for external/current facts instead of guessing. If names, versions, docs scope, or source requirements are unclear, researcher returns `Clarification Requests` to the invoker; the invoker answers from evidence or asks the human with `question`. Researcher may always `question` the human directly when a blocking question would stall the research, or when the brief routes questions straight to the human. If researcher runs nested (its invoker is itself delegated), nested `question` calls do not surface in the TUI — researcher returns the question in `Clarification Requests` and the invoker relays.
 
 ## Trigger
 

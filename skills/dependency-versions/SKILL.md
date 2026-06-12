@@ -1,6 +1,6 @@
 ---
 name: dependency-versions
-description: "Research current dependency versions and compatibility from primary sources. Use before adding, upgrading, or pinning libraries/tools."
+description: "Research current dependency versions and compatibility from primary sources. Use before adding, upgrading, or pinning libraries and tools."
 license: MIT
 ---
 

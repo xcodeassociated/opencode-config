@@ -1,6 +1,6 @@
 ---
 name: backup-restore-strategy
-description: "Design backup and restore for on-prem Docker/k8s systems. Use before stateful changes, upgrades, migrations, or production readiness review."
+description: "Design backup and restore for on-prem Docker/K8s systems, with RPO/RTO and rollback. Use before stateful changes, upgrades, migrations, or production-readiness review."
 license: MIT
 ---
 

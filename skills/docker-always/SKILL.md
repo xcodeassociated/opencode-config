@@ -1,6 +1,6 @@
 ---
 name: docker-always
-description: "Use Docker/Compose for reproducible local and deployable services. Apply for Spring, React, DBs, Keycloak, and supporting services."
+description: "Use Docker/Compose for reproducible local and deployable services. Use for Spring, React, DBs, Keycloak, and supporting services."
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: tdd-cycle
-description: "Use test-first development for behavior changes. Red, green, refactor, then broader checks and handoff evidence."
+description: "Use test-first development for behavior changes: red, green, refactor, then broader checks and handoff evidence."
 license: MIT
 ---
 

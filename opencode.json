@@ -121,71 +121,28 @@
   },
   "agent": {
     "team-lead": {
-      "description": "Primary human-facing orchestrator. Plans, asks consolidated questions, delegates specialists, prevents hallucinated assumptions, and verifies production-readiness gates.",
+      "description": "Primary human-facing orchestrator. Reads and plans the repo first, asks consolidated questions, then delegates executable work to the right specialist and integrates their reports. Prevents hallucinated assumptions, routes all external research to @researcher, and enforces verification and production-readiness gates before calling work done.",
       "mode": "primary",
       "prompt": "{file:./agents/team-lead_prompt.txt}",
       "color": "#f39c12",
       "temperature": 0.25,
       "permission": {
         "bash": {
-          "*": "ask",
-          "grep *": "allow",
-          "tail *": "allow",
-          "head *": "allow",
-          "find *": "allow",
-          "cat *": "allow",
-          "ls *": "allow",
-          "wc *": "allow",
-          "rg *": "allow",
-          "git status *": "allow",
-          "git log *": "allow",
-          "git diff *": "allow",
-          "git branch *": "allow",
-          "git commit *": "ask",
-          "curl *": "deny",
-          "git push *": "deny",
-          "git reset *": "deny",
-          "git clean *": "deny",
-          "git restore *": "ask",
-          "git checkout *": "ask",
-          "git switch *": "ask",
-          "git stash *": "ask",
-          "git stash list*": "allow",
-          "git stash show*": "allow",
-          "docker *": "ask",
-          "docker compose *": "ask",
-          "rm -rf *": "deny",
-          "sudo *": "ask",
-          "git check-ignore *": "allow",
-          "git ls-files *": "allow",
-          "printf *": "allow",
-          "pwd": "allow",
-          "date": "allow",
-          "git rev-parse *": "allow",
-          "mkdir -p .agent-state": "allow",
-          "mkdir -p ./.agent-state": "allow",
-          "sort *": "allow",
-          "which *": "allow",
-          "tree": "allow",
-          "tree *": "allow",
-          "awk *": "allow",
-          "tar *": "allow",
-          "zip *": "allow",
-          "unzip *": "allow",
-          "cp *": "ask",
-          "mv *": "ask",
-          "brew": "ask",
-          "brew *": "ask",
-          "jq *": "allow"
+          "*": "deny"
         },
         "edit": {
-          "*": "ask",
+          "*": "deny",
+          "AGENTS.md": "allow",
+          "./AGENTS.md": "allow",
           "AGENT_WORK_STATE.md": "allow",
           "./AGENT_WORK_STATE.md": "allow",
           ".agent-state/**": "allow",
           "./.agent-state/**": "allow"
         },
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -237,7 +194,7 @@
       }
     },
     "architect": {
-      "description": "Architecture specialist. Produces evidence-backed design decisions, asks/routes clarification before artifacts, and delegates researcher for package/version facts.",
+      "description": "Architecture and design specialist for Kotlin/Spring, React/TS, and on-prem Docker/K8s. Produces evidence-backed, implementable decisions (boundaries, API/persistence/auth/eventing, ADRs/diagrams/contracts), asks @analyst for data/schema facts and @researcher for package/version/CVE facts, and hands off to @developer/@devops/@tester. Does not write application code.",
       "mode": "all",
       "prompt": "{file:./agents/architect_prompt.txt}",
       "color": "#5b8dd9",
@@ -285,6 +242,9 @@
         },
         "edit": "allow",
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -351,7 +311,7 @@
       }
     },
     "developer": {
-      "description": "Senior full-stack implementer. Uses TDD, asks/routes clarification before edits, cooperates with tester/devops, and delegates researcher for package/version facts.",
+      "description": "Senior full-stack implementer (Kotlin/Spring, React/Vite/shadcn). Delivers approved slices test-first, asks @architect for design decisions and @analyst before data-shape changes, hands implemented work to @tester for verification and @devops for runtime/deploy, and delegates external/package/version facts to @researcher.",
       "mode": "all",
       "prompt": "{file:./agents/developer_prompt.txt}",
       "color": "#4caf82",
@@ -434,6 +394,9 @@
         },
         "edit": "allow",
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -520,7 +483,7 @@
       }
     },
     "tester": {
-      "description": "QA/API/UI/security verifier. Reproduces and verifies with evidence, asks/routes clarification before test artifacts, and uses researcher for external facts.",
+      "description": "QA, API, UI, and security verifier. Reproduces bugs before fixes, verifies implemented work against acceptance criteria with exact command/API/UI evidence, sends concise bug reports back to @developer, escalates infra/runtime blockers to @devops, and routes external facts to @researcher. Touches test artifacts only.",
       "mode": "all",
       "prompt": "{file:./agents/tester_prompt.txt}",
       "color": "#c0392b",
@@ -538,9 +501,9 @@
           "./gradlew test *": "allow",
           "./gradlew check": "allow",
           "./gradlew *": "allow",
+          "make *": "ask",
           "make test": "allow",
           "make lint": "allow",
-          "make *": "ask",
           "grep *": "allow",
           "find *": "allow",
           "cat *": "allow",
@@ -604,6 +567,9 @@
         },
         "edit": "allow",
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -667,7 +633,7 @@
       }
     },
     "analyst": {
-      "description": "Read-only requirements/data/schema analyst. Grounds decisions in evidence, asks/routes clarification for missing business facts, and uses researcher for external facts.",
+      "description": "Read-only repository, requirements, data, schema, and migration-risk analyst. Gathers facts and surfaces risks/options, returns intel with routing suggestions for @architect (design) and @developer (code), and delegates external facts to @researcher. Makes no design decisions and writes no code.",
       "mode": "all",
       "prompt": "{file:./agents/analyst_prompt.txt}",
       "color": "#1abc9c",
@@ -727,16 +693,25 @@
           "cp *": "ask",
           "mv *": "ask",
           "brew": "ask",
-          "brew *": "ask"
+          "brew *": "ask",
+          "tee *": "deny",
+          "sed -i*": "deny",
+          "dd *": "deny",
+          "truncate *": "deny"
         },
         "edit": {
           "*": "deny",
+          "AGENTS.md": "allow",
+          "./AGENTS.md": "allow",
           "AGENT_WORK_STATE.md": "allow",
           "./AGENT_WORK_STATE.md": "allow",
           ".agent-state/**": "allow",
           "./.agent-state/**": "allow"
         },
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -754,6 +729,7 @@
           "data-profiling": "allow",
           "schema-analysis": "allow",
           "jpa-foreign-key-indexes": "allow",
+          "jpa-hibernate-views": "allow",
           "requirements-data-lens": "allow",
           "handoff-brief": "allow",
           "agents-md-section": "allow",
@@ -780,7 +756,7 @@
       }
     },
     "devops": {
-      "description": "On-prem DevOps specialist. Handles runtime/deploy readiness with evidence, asks/routes clarification before changes, and uses researcher for external versions/docs.",
+      "description": "On-prem runtime, Docker/Compose, Kubernetes, CI/CD, observability, and backup/restore specialist. Makes apps deployable, observable, and recoverable with build/dry-run/diff evidence, supports @developer and @tester on runtime/deploy blockers, delegates external/version facts to @researcher, and never performs unsafe production or destructive actions without explicit approval.",
       "mode": "all",
       "prompt": "{file:./agents/devops_prompt.txt}",
       "color": "#e67e22",
@@ -882,6 +858,9 @@
         },
         "edit": "allow",
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "webfetch": "deny",
         "websearch": "deny",
         "firecrawl*": "deny",
@@ -906,6 +885,7 @@
           "observability": "allow",
           "ci-cd-pipeline": "allow",
           "liquibase-migrations": "allow",
+          "jpa-foreign-key-indexes": "allow",
           "context-reset": "allow",
           "git-workspace-check": "allow",
           "handoff-brief": "allow",
@@ -937,7 +917,7 @@
       }
     },
     "researcher": {
-      "description": "External research specialist for web/docs search, URL fetching, library/package discovery, dependency/version lookup, CVEs, and external facts. Returns cited reports and routes clarification requests to the invoker.",
+      "description": "The only agent permitted external lookup (web/docs search, URL fetch, SearXNG, Firecrawl). Provides current, cited, implementation-relevant facts: docs, package/library discovery, dependency/version and compatibility, CVEs, standards, and CLI syntax. Uses a Firecrawl-first retrieval ladder with mandatory fallback, returns cited reports, and routes clarification to the invoker.",
       "mode": "subagent",
       "prompt": "{file:./agents/researcher_prompt.txt}",
       "color": "#8e44ad",
@@ -976,6 +956,9 @@
           "docker compose *": "deny"
         },
         "read": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
         "edit": {
           "*": "ask",
           "/tmp/**": "allow",
@@ -1001,6 +984,7 @@
         "firecrawl*": "allow",
         "searxng*": "allow",
         "duckduckgo*": "allow",
+        "shadcn*": "allow",
         "skill": {
           "*": "deny",
           "firecrawl-first": "allow",
@@ -1049,7 +1033,7 @@
       "command": [
         "bunx",
         "-y",
-        "mcp-searxng"
+        "mcp-searxng@1.1.1"
       ],
       "environment": {
         "SEARXNG_URL": "{env:OPENCODE_SEARXNG_URL}"
@@ -1061,7 +1045,7 @@
       "command": [
         "bunx",
         "-y",
-        "mcp-searxng"
+        "mcp-searxng@1.1.1"
       ],
       "environment": {
         "SEARXNG_URL": "{env:OPENCODE_SEARXNG_AI_URL}"
@@ -1118,9 +1102,6 @@
     }
   },
   "experimental": {
-    "primary_tools": [
-      "question"
-    ],
     "batch_tool": false
   },
   "default_agent": "team-lead"

@@ -1,6 +1,6 @@
 ---
 name: firecrawl-first
-description: "Researcher-only resilient web workflow. Use Firecrawl first, then mandatory SearXNG/WebFetch fallback on timeouts, empty pages, oversized crawls, or tool errors."
+description: "Researcher-only resilient web workflow: Firecrawl first, then mandatory SearXNG/WebFetch fallback. Use on timeouts, empty pages, oversized crawls, or tool errors."
 license: MIT
 ---
 

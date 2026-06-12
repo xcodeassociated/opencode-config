@@ -1,6 +1,6 @@
 ---
 name: data-profiling
-description: "Profile existing data safely. Use for row counts, distributions, nulls, duplicates, outliers, quality checks, and migration readiness."
+description: "Profile existing data read-only. Use for row counts, distributions, nulls, duplicates, outliers, quality checks, and migration readiness."
 license: MIT
 ---
 

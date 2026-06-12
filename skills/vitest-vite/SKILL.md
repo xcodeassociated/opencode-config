@@ -1,6 +1,6 @@
 ---
 name: vitest-vite
-description: "Use Vitest for Vite/React tests. Apply for unit/component tests, mocks, jsdom/happy-dom choice, and CI commands."
+description: "Use Vitest for Vite/React tests. Use for unit/component tests, mocks, jsdom/happy-dom choice, and CI commands."
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: ddd-greenfield
-description: "Use DDD for greenfield or complex domains. Define bounded contexts, aggregates, invariants, and language only when domain complexity justifies it."
+description: "Apply DDD only when domain complexity justifies it: bounded contexts, aggregates, invariants, and ubiquitous language. Use for greenfield or complex domains."
 license: MIT
 ---
 

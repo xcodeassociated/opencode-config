@@ -8,12 +8,8 @@ license: MIT
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/fetch-plan-examples.md` — JPQL FETCH JOIN, EntityGraph, projection, pagination-safe fetch, and query-count tests.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 Use before adding or changing Spring Data JPA read paths that return entities with relationships or access associations after a repository call.
 

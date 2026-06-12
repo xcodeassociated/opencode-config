@@ -1,6 +1,6 @@
 ---
 name: agents-md-section
-description: "Produce a compact specialist audit section for AGENTS.md. Use during project init or repo-rule creation to document evidence-backed guidance."
+description: "Produce a compact, evidence-backed specialist audit section for AGENTS.md. Use during project init or repo-rule creation."
 license: MIT
 ---
 
@@ -23,7 +23,7 @@ Do not write the full file unless asked. Contribute your specialist section.
 - Do not edit files; return findings and blocking questions to the orchestrator.
 - If existing `AGENTS.md` guidance is stale or incomplete, return exact proposed updates instead of ignoring it.
 - When contributing to project init, verify that the generated `AGENTS.md` will include the AGENTS.md maintenance rules for future agents.
-- If delegated, return `Blocking` and `Non-blocking` clarification requests to the immediate invoking orchestrator as task output by default. Use `question` directly only when explicitly routed or no invoker exists.
+- If delegated, return `Blocking` and `Non-blocking` clarification requests to the immediate invoking orchestrator as task output by default. Use `question` directly whenever a blocking question cannot be resolved through the invoker, when the brief routes questions straight to the human, or when no invoker exists. Nested below a delegated invoker, return it in `Clarification Requests` instead — nested `question` calls do not surface in the TUI.
 - Use `Blocking` only when missing context would make `AGENTS.md` misleading or unsafe. If answers are supplied later, continue only from those `Clarification Answers`.
 
 # Role Focus

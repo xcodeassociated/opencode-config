@@ -1,6 +1,6 @@
 ---
 name: secrets-security
-description: "Handle secrets safely in code, Compose, k8s, and CI. Use before adding config, auth, credentials, tokens, env files, or deployment manifests."
+description: "Handle secrets safely in code, Compose, K8s, and CI. Use before adding config, auth, credentials, tokens, env files, or deployment manifests."
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: jpa-set-collections
-description: "Use safe collection types for JPA relationships. Prefer Set for unordered associations and use ordered lists only with explicit reason."
+description: "Use safe collection types for JPA relationships: prefer Set for unordered associations, ordered List only with explicit reason."
 license: MIT
 ---
 

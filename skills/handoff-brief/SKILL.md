@@ -25,7 +25,7 @@ Stop/ask conditions:
 
 Rules:
 
-- State the immediate invoker and whether the specialist may ask the human directly.
+- State the immediate invoker and the question route, including nesting: blocking questions the invoker cannot resolve always reach the human. A delegate of the human-facing session asks the human with `question` directly; if you are yourself delegated, instruct your delegate to return blocking questions in `Clarification Requests` only (nested `question` calls do not surface in the TUI) and relay them upward — the direct delegate of the primary session can `question` the human.
 - Include only needed context; avoid dumping unrelated history.
 - Separate facts, assumptions, and `# VERIFY` items.
 - Do not delegate external research except to `@researcher`.
@@ -50,6 +50,7 @@ Recommended next owner:
 Rules:
 
 - Report to the immediate invoker unless explicitly routed otherwise.
+- Blocking `Clarification Requests` in a return obligate the receiver: answer them and re-delegate with `Clarification Answers`, ask the human with `question` (human-facing or direct delegate of the human-facing session), or relay them upward — never close the task or send a final report around an unanswered Blocking question.
 - State what was not run.
 - Do not hide blockers in prose; use `Clarification Requests`.
 - If work changed scope or reveals stale repo guidance, include `AGENTS.md update required` with exact proposed text.

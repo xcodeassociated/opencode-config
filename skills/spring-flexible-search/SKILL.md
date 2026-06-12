@@ -1,6 +1,6 @@
 ---
 name: spring-flexible-search
-description: "Build Spring search/filter/list endpoints with pagination. Use for optional filters, sorting, pageable APIs, JPA specs, or R2DBC criteria."
+description: "Build Spring search/filter/list endpoints with pagination. Use for optional filters, sorting, pageable APIs, JPA specifications, or R2DBC criteria."
 license: MIT
 ---
 
@@ -8,13 +8,9 @@ license: MIT
 
 ## Reference Files
 
-OpenCode documents skill loading for this `SKILL.md`; sibling reference files are not guaranteed to be loaded automatically. Read them explicitly only when examples/templates are needed.
-
-Relative to this skill directory:
+Not auto-loaded; read explicitly only when needed, as `<root>/<skill-name>/references/<file>` from the same root that served this `SKILL.md`: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Do not mix copies.
 - `references/jpa.md` — JPA search/filter examples.
 - `references/r2dbc.md` — R2DBC search/filter examples.
-
-If the read tool needs a concrete path, use `<root>/<skill-name>/references/<file>` with one of these documented skill roots: `.opencode/skills`, `~/.config/opencode/skills`, `.claude/skills`, `~/.claude/skills`, `.agents/skills`, `~/.agents/skills`, or source checkout `skills`. Prefer the root that contains the loaded `SKILL.md`; do not mix references from another copy of the same skill.
 
 Use for list endpoints with optional filters, pagination, and sorting.
 
