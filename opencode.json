@@ -1104,5 +1104,6 @@
   "experimental": {
     "batch_tool": false
   },
+  "plugin": ["opencode-cmux"],
   "default_agent": "team-lead"
 }
