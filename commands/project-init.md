@@ -5,12 +5,24 @@ agent: team-lead
 
 Load `agents-md-init` and create/update the project-root `AGENTS.md` for this repository.
 
-Request / extra context:
+## Operator Prompt Context
+
+Human request / extra context typed after this command:
 $ARGUMENTS
+
+Treat the block above as optional human-provided context. Preserve any constraints in it. If it is empty, run the standard project-init workflow.
+
+Example invocation: `/project-init focus on Docker and deployment readiness`
 
 ## Hard Rules
 
 - Do not invent business/product facts, commands, versions, deployment targets, or responsibilities.
+- Analyze only the main repository/worktree. Do not analyze Git submodule contents when creating or updating `AGENTS.md`.
+- Treat Git submodule paths as external and out of scope. You may inspect `.gitmodules` only to identify submodule paths that must be skipped.
+- Exclude submodule paths from file listing, search/grep, code reads, build/test command inference, architecture summaries, and specialist discovery tasks.
+- Do not run commands or tool options that recurse into submodules, including `git submodule update`, `git submodule foreach`, `git grep --recurse-submodules`, or `git ls-files --recurse-submodules`.
+- If a command or tool accidentally includes submodule results, discard those findings and redo discovery with those paths excluded.
+- If a submodule is necessary to describe a project boundary, mention only its path/name and mark its purpose as `# VERIFY` unless the main repository documents it.
 - Use sequential specialist discovery when useful; specialists return `Clarification Requests` to `@team-lead` by default.
 - `@team-lead` answers only from evidence or asks the human with `question`; specialists may always ask the human directly when a blocking question cannot be resolved through `@team-lead`, when routed straight to the human, or when no invoker exists.
 - Ask blocking human-owned questions before editing/finalizing. Do not bury blocking questions only under `# VERIFY`.
