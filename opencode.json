@@ -127,6 +127,7 @@
       "color": "#f39c12",
       "temperature": 0.25,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "deny"
         },
@@ -200,6 +201,7 @@
       "color": "#5b8dd9",
       "temperature": 0.2,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "deny",
           "grep *": "allow",
@@ -317,6 +319,7 @@
       "color": "#4caf82",
       "temperature": 0.1,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "ask",
           "npm *": "deny",
@@ -489,6 +492,7 @@
       "color": "#c0392b",
       "temperature": 0.1,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "ask",
           "npm *": "deny",
@@ -639,6 +643,7 @@
       "color": "#1abc9c",
       "temperature": 0.2,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "deny",
           "psql *": "allow",
@@ -762,6 +767,7 @@
       "color": "#e67e22",
       "temperature": 0.1,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "ask",
           "npm *": "deny",
@@ -923,6 +929,7 @@
       "color": "#8e44ad",
       "temperature": 0.1,
       "permission": {
+        "todowrite": "allow",
         "bash": {
           "*": "ask",
           "grep *": "allow",
