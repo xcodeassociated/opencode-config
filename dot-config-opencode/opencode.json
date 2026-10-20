@@ -1,0 +1,218 @@
+ {
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "build",
+  "compaction": {
+    "auto": true,
+    "prune": true
+  },
+  "provider": {
+    "vllm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "vllm",
+      "options": {
+        "baseURL": "{env:OPENCODE_VLLM_BASE_URL}"
+      },
+      "models": {
+        "qwen/qwen3.8-flash-next": {
+          "name": "qwen/qwen3.8-flash-next",
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 524288,
+            "output": 32768
+          },
+          "options": {
+            "reasoningEffort": "xhigh"
+          },
+          "variants": {
+            "no-thinking": {
+              "reasoningEffort": "none"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "*": "allow",
+    "skill": {
+      "*": "allow"
+    },
+    "webfetch": "deny",
+    "websearch": "deny",
+    "firecrawl*": "deny",
+    "searxng*": "deny",
+    "duckduckgo*": "deny",
+    "question": "allow",
+    "external_directory": {
+      "*": "deny",
+      "/tmp/**": "allow",
+      "/private/tmp/**": "allow"
+    },
+    "todowrite": "allow"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "*": "allow",
+        "skill": {
+          "*": "allow"
+        },
+        "webfetch": "deny",
+        "websearch": "deny",
+        "firecrawl*": "deny",
+        "searxng*": "deny",
+        "duckduckgo*": "deny",
+        "question": "allow",
+        "external_directory": {
+          "*": "deny",
+          "/tmp/**": "allow",
+          "/private/tmp/**": "allow"
+        },
+        "bash": "allow",
+        "task": {
+          "*": "deny",
+          "build": "allow",
+          "researcher": "allow"
+        },
+        "todowrite": "allow"
+      },
+      "mode": "all",
+      "description": "OpenCode built-in `build` coding agent, used in primary and delegated Task sessions. The `build` agent creates and updates a todo plan for every task, implements ordinary work directly, delegates only substantial independent work to another instance of the same `build` agent, and uses the `researcher` agent for external factual research. Before major code changes or decisions needing unavailable domain/product knowledge, the primary interactive `build` agent must obtain human plan approval with the `question` tool."
+    },
+    "researcher": {
+      "description": "Read-only `researcher` agent for external facts; Firecrawl first, SearXNG fallback, local WebSearch last. One credible source is usually sufficient. The `researcher` agent maintains a todo plan, can request material clarification, but cannot edit files or delegate to other agents.",
+      "mode": "subagent",
+      "prompt": "{file:./agents/researcher_prompt.txt}",
+      "temperature": 0.1,
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "skill": {
+          "*": "allow"
+        },
+        "webfetch": "allow",
+        "websearch": "allow",
+        "firecrawl*": "allow",
+        "searxng*": "allow",
+        "duckduckgo*": "allow",
+        "edit": "deny",
+        "bash": "deny",
+        "task": "deny",
+        "question": "allow",
+        "playwright*": "deny",
+        "chrome-devtools*": "deny",
+        "shadcn*": "deny",
+        "todowrite": "allow"
+      }
+    }
+  },
+  "mcp": {
+    "chrome-devtools": {
+      "enabled": false,
+      "type": "local",
+      "command": [
+        "bunx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true
+    },
+    "searxng": {
+      "enabled": true,
+      "type": "local",
+      "command": [
+        "bunx",
+        "-y",
+        "mcp-searxng@1.1.1"
+      ],
+      "environment": {
+        "SEARXNG_URL": "{env:OPENCODE_SEARXNG_AI_URL}"
+      }
+    },
+    "duckduckgo": {
+      "enabled": false,
+      "type": "local",
+      "command": [
+        "docker",
+        "run",
+        "-i",
+        "--rm",
+        "mcp/duckduckgo"
+      ]
+    },
+    "firecrawl": {
+      "enabled": true,
+      "type": "local",
+      "command": [
+        "bunx",
+        "-y",
+        "firecrawl-mcp"
+      ],
+      "environment": {
+        "FIRECRAWL_API_URL": "{env:OPENCODE_FIRECRAWL_AI_API_URL}",
+        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "{env:OPENCODE_FIRECRAWL_RETRY_MAX_ATTEMPTS}",
+        "FIRECRAWL_API_KEY": "{env:OPENCODE_FIRECRAWL_AI_API_KEY}"
+      }
+    },
+    "shadcn": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "--bun",
+        "shadcn@latest",
+        "mcp"
+      ],
+      "enabled": true
+    }
+  },
+  "lsp": {
+    "typescript": {
+      "disabled": false,
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "initialization": {
+        "preferences": {
+          "importModuleSpecifierPreference": "relative"
+        }
+      }
+    }
+  },
+  "experimental": {
+    "batch_tool": false
+  },
+  "plugin": [
+    "opencode-cmux"
+  ],
+  "subagent_depth": 3
+}
