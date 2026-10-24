@@ -1,29 +1,45 @@
-node_modules
+**/package.json
+**/package-lock.json
+**/bun.lock
+**/service.json
 
-package.json
-bun.lock
+# Credentials
+**/service.json
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
 
-# Local runtime/session state
-AGENT_WORK_STATE.md
-.agent-state/
+# Runtime state
+**/AGENT_WORK_STATE.md
+**/.agent-state/
+**/.local/
+**/tool-output/
 
-# Secrets and local environment
+# macOS
+**/.DS_Store
+**/._*
+
+# Local agent/runtime state and tool-generated output
+**/.agent-state/
+**/.local/
+**/tool-output/
+
+# Secrets and local environment (keep templates versioned)
 .env
 .env.*
 !.env.example
 !.env.template
-*.pem
-*.key
-*.p12
-*.kubeconfig
-kubeconfig*
+**/*.pem
+**/*.key
+**/*.p12
 
-# OpenCode/tool output caches copied by mistake
-.local/
-tool-output/
-
-# OS/editor noise
+# OS/editor-generated files
 .DS_Store
+**/.DS_Store
+._*
+__MACOSX/
+**/.idea/
 .idea/
+**/.vscode/
 .vscode/
-

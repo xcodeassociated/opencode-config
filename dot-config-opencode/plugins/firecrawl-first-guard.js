@@ -1,36 +1,33 @@
-// OpenCode loads this local plugin automatically from ~/.config/opencode/plugins/.
-// Enforces an actual Firecrawl retrieval attempt before competing web tool calls.
-// The `build` agent already has these web tools denied. The `researcher` agent has them allowed.
-export const FirecrawlFirstGuard = async () => {
-  const firecrawlAttempted = new Set();
+import { Plugin } from "@opencode/plugin";
 
-  // Include both MCP tool-name layouts: firecrawl_search and
-  // firecrawl_firecrawl_search (OpenCode prefixes the MCP server name).
-  const isFirecrawlRetrieval = (name) =>
-    /^firecrawl_(?:firecrawl_)?(?:search|scrape|developer_search|map|crawl|extract|research_[a-z_]+)(?:$|_)/i.test(name);
+// Enforce Firecrawl-first retrieval for DIRECT tools in OpenCode V2.
+// The MCP servers' codemode:false setting is intentional: a Code Mode
+// wrapper would hide nested MCP executions from this tool hook.
+export default Plugin.define({
+  id: "firecrawl-first-guard",
+  async setup(ctx) {
+    // Per-session state. One attempted Firecrawl retrieval is enough to permit
+    // fallback tools in that session, matching the original V1 guard policy.
+    const attempted = new Set();
+    const retrieval = /^firecrawl_(?:firecrawl_)?(?:search|scrape|developer_search|map|crawl|extract|research_[a-z_]+)(?:$|_)/i;
+    const alternative = /^(?:searxng|duckduckgo)(?:_|$)/i;
 
-  const isAlternativeWebTool = (name) =>
-    name === "webfetch" ||
-    name === "websearch" ||
-    /^searxng(?:_|$)/i.test(name) ||
-    /^duckduckgo(?:_|$)/i.test(name);
-
-  return {
-    "tool.execute.before": async ({ tool, sessionID }) => {
-      if (isFirecrawlRetrieval(tool)) {
-        // Mark the attempted retrieval, not success. Failed Firecrawl calls
-        // are a legitimate reason to switch to a fallback tool.
-        firecrawlAttempted.add(sessionID);
+    await ctx.tool.hook("execute.before", (event) => {
+      const { tool, sessionID } = event;
+      if (retrieval.test(tool)) {
+        attempted.add(sessionID);
         return;
       }
 
-      if (isAlternativeWebTool(tool) && !firecrawlAttempted.has(sessionID)) {
-        throw new Error(
-          "Firecrawl-first policy: try firecrawl_firecrawl_search (for queries) " +
-            "or firecrawl_firecrawl_scrape (for URLs) before " + tool + ". " +
-            "If Firecrawl is disconnected, report the MCP outage instead of bypassing it."
-        );
-      }
-    },
-  };
-};
+      if (tool !== "webfetch" && tool !== "websearch" && !alternative.test(tool)) return;
+      if (attempted.has(sessionID)) return;
+
+      throw new Error(
+        "Firecrawl-first policy: call firecrawl_search (or " +
+        "firecrawl_firecrawl_search), or firecrawl_scrape for a known URL, " +
+        "before " + tool + ". If Firecrawl is disconnected, report " +
+        "the MCP outage instead of bypassing it."
+      );
+    });
+  },
+});
