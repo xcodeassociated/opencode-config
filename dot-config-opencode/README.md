@@ -1,79 +1,185 @@
-# OpenCode — mandatory todos and plan approval; one `build` agent definition with optional self-delegation
+# OpenCode v2 configuration
 
-This package extends your existing OpenCode setup with required todo planning for all configured agents and human review of significant plans, without creating a `build-worker` or any other coding-agent identity. Your vLLM, `researcher` agent / Firecrawl-first guard, and existing delegation/tool configurations are otherwise preserved.
+Personal, global [OpenCode v2](https://opencode.ai/v2/docs/) configuration for a self-hosted vLLM model, a coding/research agent workflow, MCP integrations, and custom plugins.
 
-**Terminology:** `build` is the OpenCode agent ID; references to the coding assistant explicitly use **`build` agent**. A *software build* or *build command* means compiling/packaging the application. The config IDs (`build`, `plan`, `researcher`) and executable commands remain unchanged.
+This directory is intended to be installed at **`~/.config/opencode/`**. It is one half of the repository: the separate [`../dot-agents/`](../dot-agents/) directory installs to **`~/.agents/`** and holds reusable, tool-agnostic skills. See the [root README](../README.md) for the full repository layout and shared-skill installation.
 
-## New: mandatory todo plans and human review
+## Files and responsibilities
 
-- Global `~/.config/opencode/AGENTS.md` now tells **every interactive/delegated agent** (primary `build` agent, delegated `build` agent, built-in `plan` agent, `researcher` agent) to create a right-sized todo plan at the beginning of every task, follow the steps and update them immediately when unexpected facts/problems arise. Even a one-off question gets a tiny plan.
-- Both global and per-agent `permission.todowrite: "allow"` explicitly expose OpenCode's built-in `todowrite`/`todoread` tools. This is important for delegated `build` agent and `researcher` agent sessions, as subagent todo tools can otherwise be hidden. If using an older OpenCode build that still hides todo tools in subagents, the fallback is a short written plan; upgrade OpenCode for tool-based subagent plans.
-- For **major code changes** or **material missing domain/product knowledge**, agents must prepare a concrete plan and get **explicit human approval before implementation**. The primary interactive agent asks via the built-in `question` tool with `Approve plan`, `Revise plan`, and `Cancel / stop` choices. OpenCode automatically includes **Type your own answer**, which must remain enabled. Feedback is not implicit approval.
-- Nested agents **escalate** plan approval needs to the primary `build` agent instead of issuing interactive questions from nested Task sessions. A material change after approval requires a revised plan and new approval. Routine minor fixes do not require approval, but still need a todo plan.
-- `todowrite` and approval-gate behavior are **prompt instructions**, not fail-closed runtime guards. This setup does not automatically detect whether a diff is major. It also does not modify the global `edit` permission to ask for every change.
+```text
+dot-config-opencode/               -> ~/.config/opencode/
+├── opencode.json                  # V2 server config: model, agents, permissions, MCP, plugins
+├── cli.json                       # Terminal-client appearance and session settings
+├── AGENTS.md                      # Global instructions for all relevant agent sessions
+├── .env.example                   # Environment-variable template (no credentials)
+├── agents/
+│   └── researcher.md              # Read-only researcher subagent definition
+├── commands/
+│   └── project-init.md            # Custom project initialization command
+├── plugins/
+│   ├── firecrawl-first-guard.js   # Checks direct research-tool call ordering
+│   └── researcher-temperature.js  # Sets researcher temperature through a V2 hook
+├── skills/                        # Five OpenCode-specific skills
+│   ├── agents-md-init/
+│   ├── agents-md-maintenance/
+│   ├── developer-bug-fix/
+│   ├── firecrawl-first/
+│   └── iterative-development/
+└── tests/
+    └── firecrawl-first-guard.test.mjs
+```
 
-## Key changes
-
-- `agent.build.mode: "all"` — the same built-in `build` agent definition is usable as the primary agent and as a Task target.
-- `agent.build.permission.task` allows `build` and `researcher` only (all other Task targets denied). All `build` agent sessions, even nested ones, receive the same agent-level permissions.
-- `subagent_depth: 3` — permits `build -> build -> build -> researcher`. There is a real depth limit to reduce runaway recursion; it is not a concurrency limit. Once the limit is reached, a session cannot spawn further tasks.
-- Removed `agent.build-worker` and the `agents/build_worker_prompt.txt` file. No new coding agent configuration.
-- Updated global `AGENTS.md`, `researcher` agent prompt and iterative development skill to allow the same `build` agent to delegate carefully and consult the `researcher` agent at permitted depths.
-
-**Important technical distinction:** OpenCode's Task tool always creates a child/subagent *session*. `mode: "all"` makes it the identical `build` *agent*, not a separate `build-worker`. It has an independent conversation/context window; it is not an independently switched primary session.
-
-## Intended behavior
-
-| Request | Expected approach |
-| --- | --- |
-| Ordinary bug fix or feature | Single `build` agent handles it |
-| Backend + frontend or multiple independent services | The `build` agent optionally delegates an independent scoped component to another `build` agent instance |
-| Big logs/debugging investigation | The `build` agent optionally delegates diagnosis to a child `build` agent instance |
-| Login, UI or E2E verification | A delegated `build` agent can run Playwright against the application |
-| Nontrivial Docker/Kubernetes/CI work | The `build` agent can delegate a bounded DevOps component |
-| Online docs, external facts, current releases | The `researcher` agent only, invoked by any `build` agent at an allowed depth |
-| Local/staging API calls or auth testing | The `build` agent can use curl/wget/HTTP/browser tools directly |
-| Fetching online docs with curl or using browser for web research | Not allowed for the `build` agent; use the `researcher` agent |
-
-By default the `build` agent instructions favor direct implementation, usually at most one other `build` agent instance if needed, and nested `build` agent delegation only for genuinely distinct work. These are **agent behavior instructions, not concurrency enforcement**.
-
-## `researcher` agent behavior
-
-Firecrawl-first remains protected by the original `plugins/firecrawl-first-guard.js`: Firecrawl retrieval is required before SearXNG/websearch fallbacks. One useful source is normally sufficient; there is no mandatory second-source requirement. The `researcher` agent remains read-only, cannot use bash/edit or Task, and can ask questions when invoked directly by the primary `build` agent.
-
-For nested research (`build -> build -> researcher`), the caller tells the `researcher` agent to return clarification requests rather than call `question`, because nested question routing has been reported problematic in some versions. The `build` agent relays unanswered requirements to the primary session.
+OpenCode also discovers compatible skills installed separately in `~/.agents/skills/`; there is no need to duplicate those files here.
 
 ## Installation
 
-1. Back up `~/.config/opencode/`.
-2. Copy `opencode.json`, `AGENTS.md`, `agents/researcher_prompt.txt`, and other included folders into that configuration directory, merging existing unrelated files rather than deleting them.
-3. If you installed the previous package, **delete the obsolete `~/.config/opencode/agents/build_worker_prompt.txt`**. The new JSON no longer references it (keeping the orphan file would not itself configure an agent).
-4. Restart OpenCode and start a fresh session.
-5. `AGENTS.md` at `~/.config/opencode/AGENTS.md` is automatically loaded as global rules; it does not need an explicit `instructions` entry.
+**Prerequisites:** OpenCode **v2**, a reachable vLLM OpenAI-compatible endpoint, and Bun/`bunx` for the enabled local MCP launch commands. The Firecrawl and SearXNG servers additionally require reachable services and suitable environment variables. Some integrations may need other runtime-specific dependencies.
 
-## Static/runtime checks
+From the **repository root**, with a backup of any existing installation:
 
 ```sh
-python3 -m json.tool ~/.config/opencode/opencode.json >/dev/null
-opencode debug agent build
-opencode debug agent researcher
+mkdir -p "$HOME/.config/opencode" "$HOME/.agents"
+rsync -av dot-config-opencode/ "$HOME/.config/opencode/"
+rsync -av dot-agents/ "$HOME/.agents/"
+
+# Create local environment settings only once.
+[ -f "$HOME/.config/opencode/.env" ] || \
+  cp "$HOME/.config/opencode/.env.example" "$HOME/.config/opencode/.env"
 ```
 
-Check that the `build` agent has mode `all`, the Task allowlist contains `build` and `researcher`, and `todowrite` is allowed for the `build` and `researcher` agents and globally. Then try:
+`rsync -av` merges directories but **overwrites same-named destination files**. It does not remove files no longer present in the repository; check for obsolete files from older installations (for example `agents/build_worker_prompt.txt`). Do not use `--delete` without reviewing the destination.
 
-1. "Fix a localized bug without delegating." → Should stay in one `build` agent session.
-2. "Implement these independent backend and frontend changes; delegate the backend portion to another build agent." → Task target should be `build`, not `build-worker`.
-3. "In the delegated `build` agent session, look up the official docs for the current API through researcher." → Expected `build -> build -> researcher`, Firecrawl first.
-4. "Call the running local API with curl to check its response." → Direct command by the `build` agent is permitted.
-5. "Find current Kubernetes documentation using curl." → The `build` agent should delegate to the `researcher` agent instead.
+The `.env` file is only a template-derived local file. **OpenCode does not automatically source it as a shell script.** To start a shell-launched client with those variables:
 
-The artifact was statically verified, but a live OpenCode session and MCP services were **not** executed here. Depth and Task behaviors depend on installed OpenCode version. The documented `subagent_depth` key applies to the current V1 configuration; OpenCode V2 uses `experimental.subagent_depth` instead.
+```sh
+set -a
+. "$HOME/.config/opencode/.env"
+set +a
+opencode
+```
 
-## Documentation
+OpenCode v2 has a shared background service: when it is already running, changing the client's shell environment may **not** change the service's environment. Check `opencode service status`, and ensure the **server process** receives the configured values before retrying. The [service commands](https://opencode.ai/v2/docs/cli/commands/) include `opencode service set env` and `opencode service restart`.
 
-- https://opencode.ai/docs/agents/ — agent modes, Task and todo permissions
-- https://docs.opencode.ai/docs/tools/ — built-in `question` with custom answers
-- https://github.com/anomalyco/opencode/blob/dev/packages/opencode/src/tool/task.ts — delegated tool-permission logic
-- https://opencode.ai/docs/config/ — depth configuration
-- https://opencode.ai/docs/rules/ — global AGENTS.md
-- https://opencode.ai/v2/docs/migrate-v1/ — V2 setting changes
+## vLLM model and settings
+
+`opencode.json` selects the **`build`** agent by default and the following model:
+
+| Setting | Configured value |
+| --- | --- |
+| Provider | `vllm` using `aisdk:@ai-sdk/openai-compatible` |
+| Model | `vllm/qwen/qwen3.8-flash-next` |
+| Provider base URL | `{env:OPENCODE_VLLM_BASE_URL}` |
+| Model context limit (declared) | `524288` tokens |
+| Model output limit (declared) | `32768` tokens |
+| Reasoning effort (default) | `xhigh` |
+| Available variants | `no-thinking`, `low`, `medium`, `xhigh` |
+| Input / output capability | Text and images in; text out; tools and reasoning declared |
+
+The limits and capabilities above are **client configuration declarations**, not measurements of your running vLLM server. The actual model, KV-cache capacity, context window, supported request fields and authentication requirements must match the endpoint. In particular, `opencode.json` does **not** currently specify an API key for this provider; if your endpoint requires bearer-token authentication, configure credentials separately before expecting requests to succeed.
+
+## Agent workflow
+
+### `build` (default)
+
+`agents.build` in `opencode.json` uses `mode: "all"`: the same `build` agent definition can run interactively or in a delegated subagent session. No separate `build-worker` agent is defined.
+
+- Implement ordinary changes in the primary `build` session.
+- Delegate bounded, independent work to another `build` session when it provides a clear benefit.
+- Delegate **external factual research** (documentation, releases, compatibility, web searches) to `researcher`; `build` may use networking/browser tools for **application development and testing**, not external research.
+- Use `todowrite` on every task, with a plan proportional to the request.
+- Request explicit human approval before major, high-impact changes or work blocked by essential domain/product knowledge. Delegated agents escalate approval requests to the primary interactive agent.
+
+The corresponding requirements live in [`AGENTS.md`](./AGENTS.md). **Todo discipline and major-change approvals are agent instructions, not fail-closed authorization controls.** The configuration does not automatically identify all major changes or stop every unauthorized edit.
+
+`experimental.todo: true` enables the V2 todo tool. `experimental.subagent_depth: 3` allows nested delegation beyond the default depth. **Depth is not a parallel-agent/concurrency limit**. Agent instructions discourage unnecessary nesting and overlapping writes.
+
+### `researcher` (subagent)
+
+[`agents/researcher.md`](./agents/researcher.md) defines the read-only research agent. It cannot edit files, run shell commands, or spawn other agents under its configured permissions. Its preferred retrieval sequence is:
+
+1. **Firecrawl first** (`firecrawl_search`, `firecrawl_scrape`, or an appropriate developer-search tool).
+2. **SearXNG** if Firecrawl fails or is insufficient.
+3. **Local `websearch`** only as a last search fallback. For a known URL that Firecrawl cannot scrape, `webfetch` is an allowed fetching fallback.
+
+A credible source is normally enough for a straightforward lookup; complex, contested or high-stakes questions may require further verification. The `researcher-temperature.js` plugin sets the researcher's request temperature to `0.1`.
+
+When nested research needs a clarification or major-change approval, the researcher returns it to the caller rather than asking interactively from a deeply nested session.
+
+## MCP servers
+
+These values reflect **`opencode.json` as committed**, not a live connection check.
+
+| Server | State | Mode | Role |
+| --- | --- | --- | --- |
+| `firecrawl` | Enabled | **Direct tools** (`codemode: false`) | Primary external research source |
+| `searxng` | Enabled | **Direct tools** (`codemode: false`) | Research fallback |
+| `playwright` | Enabled | Code Mode (`codemode: true`) | Application/browser testing |
+| `shadcn` | Enabled | Code Mode (`codemode: true`) | UI component tooling |
+| `chrome-devtools` | Disabled | Code Mode | Optional browser diagnostics |
+| `duckduckgo` | Disabled | Direct tools | Optional search server, not in normal fallback sequence |
+
+Firecrawl and SearXNG deliberately use **direct MCP tools**, not Code Mode. This keeps their calls visible to the Firecrawl-first hook and follows the researcher tool policy. Merely setting `codemode: false` does not grant those tools to `build`: agent permissions still apply.
+
+The enabled local launch commands use `bunx`. Firecrawl, SearXNG, and other server dependencies must be accessible from the host running OpenCode. Check live connections with `opencode mcp list`.
+
+## Plugins, command and skills
+
+**Local plugins** in `~/.config/opencode/plugins/` are discovered by OpenCode v2. This repository has two:
+
+- [`firecrawl-first-guard.js`](./plugins/firecrawl-first-guard.js): uses a V2 `execute.before` hook to reject direct SearXNG, DuckDuckGo, `webfetch` or `websearch` calls **until a recognized Firecrawl retrieval has been attempted in that session**. The guard checks ordering, **not success or quality**. It is not a general network firewall and cannot enforce policy inside opaque Code Mode tool calls.
+- [`researcher-temperature.js`](./plugins/researcher-temperature.js): uses the V2 session-context hook to apply `temperature: 0.1` for the `researcher` agent.
+
+The `plugins` array also declares the external **`opencode-cmux`** plugin. Availability and behavior depend on the installed OpenCode version and plugin package.
+
+The custom [`commands/project-init.md`](./commands/project-init.md) command guides the `build` agent in creating or maintaining project-level `AGENTS.md`. The five [OpenCode-specific skills](./skills/) cover agent instructions, bug fixes, research discipline and incremental implementation; generic cross-tool skills live under `~/.agents/skills/`.
+
+## Environment variables and credentials
+
+Start from [`.env.example`](./.env.example). The active settings referenced by this repository's JSON are:
+
+| Variable | Used for |
+| --- | --- |
+| `OPENCODE_VLLM_BASE_URL` | vLLM OpenAI-compatible base URL (normally including `/v1`) |
+| `OPENCODE_FIRECRAWL_AI_API_URL` | Firecrawl MCP API endpoint |
+| `OPENCODE_FIRECRAWL_AI_API_KEY` | Firecrawl MCP API key |
+| `OPENCODE_FIRECRAWL_RETRY_MAX_ATTEMPTS` | Firecrawl retry setting |
+| `OPENCODE_SEARXNG_AI_URL` | SearXNG MCP URL |
+
+The template also contains `OPENCODE_FIRECRAWL_API_URL`, `OPENCODE_FIRECRAWL_API_KEY`, and `OPENCODE_SEARXNG_URL`, but **those three are not referenced by the current `opencode.json`**. Only the `*_AI_*` versions above are wired to the MCP configurations. Missing `{env:...}` values expand to empty strings; ensure required variables are present in the OpenCode **server's** environment.
+
+**Never commit** actual `.env` files, API tokens, private keys or `service.json`. The v2 `service.json` password is for the OpenCode background service, **not** for vLLM. Keep a root `.gitignore` covering secret paths at any depth. If a password has been committed or disclosed, rotate it; removing the tracked file does not remove its history.
+
+## Validation and troubleshooting
+
+From the repository root:
+
+```sh
+# Syntax and isolated local plugin behavior
+python3 -m json.tool dot-config-opencode/opencode.json >/dev/null
+python3 -m json.tool dot-config-opencode/cli.json >/dev/null
+node --test dot-config-opencode/tests/*.test.mjs
+
+# Inspect the actual v2 installation (requires OpenCode installed)
+opencode service status
+opencode debug config
+opencode debug agents
+opencode models
+opencode mcp list
+opencode plugin list
+```
+
+The Node tests exercise plugin behavior in isolation; they **do not** prove that the model endpoint, real MCP servers, OpenCode plugin APIs, nested delegation, or approval prompts work end to end. Test those in a fresh OpenCode session after installing and reloading the configuration. If environment variables or plugins were changed, restart the relevant background service.
+
+For an end-to-end smoke check, try a small local coding task, a Firecrawl-first documentation question delegated to `researcher`, and a major-change request that should trigger a plan approval **before** implementation. Verify behavior rather than assuming instructions are enforced automatically.
+
+## Official references
+
+- [OpenCode v2 configuration](https://opencode.ai/v2/docs/config)
+- [V1 → V2 migration](https://opencode.ai/v2/docs/migrate-v1)
+- [Agents](https://opencode.ai/v2/docs/agents)
+- [Permissions](https://opencode.ai/v2/docs/permissions)
+- [Skills](https://opencode.ai/v2/docs/skills)
+- [MCP servers](https://opencode.ai/v2/docs/mcp-servers)
+- [Plugins](https://opencode.ai/v2/docs/plugins)
+- [CLI commands](https://opencode.ai/v2/docs/cli/commands)
+- [Terminal client settings](https://opencode.ai/v2/docs/cli/config)
