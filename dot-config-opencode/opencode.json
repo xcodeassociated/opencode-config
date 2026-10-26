@@ -30,7 +30,7 @@
             }
           },
           "limit": {
-            "context": 524288,
+            "context": 520000,
             "output": 32768
           },
           "settings": {
@@ -249,19 +249,7 @@
           "SEARXNG_URL": "{env:OPENCODE_SEARXNG_AI_URL}"
         },
         "disabled": false,
-        "codemode": false
-      },
-      "duckduckgo": {
-        "type": "local",
-        "command": [
-          "docker",
-          "run",
-          "-i",
-          "--rm",
-          "mcp/duckduckgo"
-        ],
-        "disabled": true,
-        "codemode": false
+        "codemode": true
       },
       "firecrawl": {
         "type": "local",
